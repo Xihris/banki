@@ -9,8 +9,8 @@ def parsing
   f.close
 end
 
-END_OF_NEWS = "Новостей за выбранный период не найдено."
-puts "Введите нужную дату: "
+END_OF_NEWS = 'Новостей за выбранный период не найдено.'
+puts 'Введите нужную дату: '
 day_d = gets.chomp
 right_day = Date.parse(day_d)
 
@@ -28,9 +28,7 @@ end_of_parse = @parse.css('div.widget:nth-child(5) > p:nth-child(2)').text
 
 # если последняя страница равна фразе, то заканчиваем цикл
 # цикл нужен что бы определить количество страниц
-unless end_of_parse == END_OF_NEWS
-  parsing
-end
+parsing unless end_of_parse == END_OF_NEWS
 
 count = @page # присваеваем количество страниц переменной
 @page = 1 # обновляем значение первой страницы
@@ -43,7 +41,7 @@ count.times do # собственно сам счетчик. Заново зап
 end
 
 links.each do |x|
-   x.css('a').each do |y|
+  x.css('a').each do |y|
     all_links << y.attr('href')
   end
 end
@@ -52,9 +50,9 @@ all_links.each do |x|
   link << "http://www.banki.ru#{x}" if x !~ /http/ && x !~ /#reviewArea/
 end
 
-file = File.new("#{right_day}.txt", "a:UTF-8")
+file = File.new("#{right_day}.txt", 'a:UTF-8')
 link.each do |news|
-  news = Nokogiri::HTML(open(news),nil, 'UTF-8')
+  news = Nokogiri::HTML(open(news), nil, 'UTF-8')
   date = news.css('.news__info > span:nth-child(1) > time:nth-child(1)').text
   head = news.css('.header-h0').text
   body = news.css('.article-text').text.gsub(/\s\s+/, "\r ")
